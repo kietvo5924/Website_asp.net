@@ -28,7 +28,7 @@
 <body>
     <header class="navbar sticky-top flex-md-nowrap">
         <div class="col-md-3 col-lg-3 me-0 px-3 fs-6">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" asp-page="Index">
                 <i class="bi-box"></i>
                 Mini Finance
             </a>
@@ -270,30 +270,37 @@
                                         <div class="mb-4">
                                             <label for="Name">Tên Nhóm:</label>
                                             <input type="text" id="Name" name="Name" class="form-control" placeholder="Nhập tên nhóm" required value="@Model.NhomHangToUpdate.Name">
+                                            <span asp-validation-for="NhomHangToUpdate.Name" class="text-danger"></span>
                                         </div>
 
                                         <div class="mb-4">
                                             <label for="Price">Giá:</label>
                                             <input type="number" id="Price" name="Price" class="form-control" placeholder="Nhập giá" required value="@Model.NhomHangToUpdate.Price">
+                                            <span asp-validation-for="NhomHangToUpdate.Price" class="text-danger"></span>
                                         </div>
 
                                         <div class="mb-4">
                                             <label for="Description">Mô tả:</label>
                                             <textarea id="Description" name="Description" class="form-control" placeholder="Nhập mô tả">@Model.NhomHangToUpdate.Description</textarea>
+                                            <span asp-validation-for="NhomHangToUpdate.Description" class="text-danger"></span>
                                         </div>
 
                                         <div class="mb-4">
                                             <label for="DiaChiId">Địa chỉ:</label>
                                             <select id="DiaChiId" name="DiaChiId" class="form-control" required>
-                                                <option value="">@Model.NhomHangToUpdate.DiaChiId</option>
+                                                <option value="@Model.NhomHangToUpdate.DiaChiId">Chọn địa chỉ</option>
                                                 @foreach (var diaChi in Model.ListDiaChi)
                                                 {
                                                     <option value="@diaChi.MaTT">@diaChi.TenTinh</option>
                                                 }
                                             </select>
+                                            <span asp-validation-for="NhomHangToUpdate.DiaChiId" class="text-danger"></span>
                                         </div>
 
-                                        <input type="hidden" id="OriginalCreatedAt" name="OriginalCreatedAt" value="@Model.NhomHangToUpdate.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ss")">
+                                        <div class="mb-4">
+                                            <label for="OriginalCreatedAt">Ngày tạo ban đầu:</label>
+                                            <input type="date" id="OriginalCreatedAt" name="OriginalCreatedAt" class="form-control" value="@Model.NhomHangToUpdate.CreatedAt.ToString("yyyy-MM-dd")" readonly>
+                                        </div>
 
                                         <div class="row justify-content-center align-items-center">
                                             <div class="col-lg-5 col-12">

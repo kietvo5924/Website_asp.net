@@ -37,6 +37,11 @@ namespace Website_asp.net.Pages
             }
 
             NhomHangList = await _context.NhomHangs.ToListAsync();
+            foreach (var nhomHang in NhomHangList)
+            {
+                nhomHang.DiaChi = await _context.DiaChis.FindAsync(nhomHang.DiaChiId);
+            }
+
             return Page();
         }
 

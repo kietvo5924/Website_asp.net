@@ -302,7 +302,7 @@
                                                         <td>@nhomHang.Price</td>
                                                         <td>@nhomHang.Description</td>
                                                         <td>@nhomHang.CreatedAt</td>
-                                                        <td>@nhomHang.DiaChiId</td>
+                                                        <td>@(nhomHang.DiaChi != null ? nhomHang.DiaChi.TenTinh : "Unknown")</td>
                                                         <td>
                                                             <a asp-page="EditNhomHang" asp-route-id="@nhomHang.Id" class="btn btn-custom"><i class="bi bi-pencil"></i></a>
                                                             <a asp-page-handler="Delete" asp-route-id="@nhomHang.Id" class="btn btn-custom"><i class="bi bi-trash"></i></a>
