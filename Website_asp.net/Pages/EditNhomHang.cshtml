@@ -288,10 +288,20 @@
                                         <div class="mb-4">
                                             <label for="DiaChiId">Địa chỉ:</label>
                                             <select id="DiaChiId" name="DiaChiId" class="form-control" required>
-                                                <option value="@Model.NhomHangToUpdate.DiaChiId">Chọn địa chỉ</option>
+                                                @if (Model.NhomHangToUpdate.DiaChiId != 0)
+                                                {
+                                                    var selectedDiaChi = Model.ListDiaChi.FirstOrDefault(d => d.MaTT == Model.NhomHangToUpdate.DiaChiId);
+                                                    if (selectedDiaChi != null)
+                                                    {
+                                                        <option value="@Model.NhomHangToUpdate.DiaChiId">@selectedDiaChi.TenTinh</option>
+                                                    }
+                                                }
                                                 @foreach (var diaChi in Model.ListDiaChi)
                                                 {
-                                                    <option value="@diaChi.MaTT">@diaChi.TenTinh</option>
+                                                    if (diaChi.MaTT != Model.NhomHangToUpdate.DiaChiId)
+                                                    {
+                                                        <option value="@diaChi.MaTT">@diaChi.TenTinh</option>
+                                                    }
                                                 }
                                             </select>
                                             <span asp-validation-for="NhomHangToUpdate.DiaChiId" class="text-danger"></span>
@@ -337,5 +347,19 @@
     <script src="~/lib/bootstrap/dist/js/countdown.js"></script>
     <script src="~/lib/bootstrap/dist/js/apexcharts.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/custom.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var selectAddress = $('#DiaChiId');
+
+            // Kích hoạt Select2 cho dropdown địa chỉ
+            selectAddress.select2({
+                dropdownAutoWidth: true,
+                width: '100%',
+                placeholder: "Chọn địa chỉ",
+                allowClear: true
+            });
+        });
+    </script>
 </body>
 </html>
