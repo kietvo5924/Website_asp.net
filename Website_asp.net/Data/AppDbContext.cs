@@ -13,5 +13,6 @@ namespace Website_asp.net.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<DiaChi> DiaChis { get; set; }
         public DbSet<NhomHang> NhomHangs { get; set; }
+        public DbSet<ChiTietHang> ChiTietHangs { get; set; }
     }
 }

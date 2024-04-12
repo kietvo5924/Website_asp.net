@@ -15,7 +15,7 @@ namespace Website_asp.net.Pages.Master_Detail
             _context = context;
         }
 
-        public IActionResult OnGet(int Id)
+      /*  public IActionResult OnGet(int Id)
         {
             // Ki?m tra xem Session UserName ?ã t?n t?i hay không
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserName")))
@@ -25,7 +25,7 @@ namespace Website_asp.net.Pages.Master_Detail
             }
 
             return Page();
-        }
+        } */
 
         public IActionResult OnPostLogout()
         {
@@ -34,6 +34,15 @@ namespace Website_asp.net.Pages.Master_Detail
 
             // Tr? v? mã tr?ng thái HTTP 200 OK
             return RedirectToPage("/Privacy");
+        }
+
+        public List<NhomHang> ListNhomHang { get; set; }
+
+        public IActionResult OnGet(int Id)
+        {
+            ListNhomHang = _context.NhomHangs.Include(n => n.DiaChi).ToList();
+
+            return Page();
         }
     }
 }

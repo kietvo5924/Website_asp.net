@@ -154,7 +154,7 @@
 
                 <div class="dropdown px-3">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="images/man.jpg" class="profile-image img-fluid" alt="">
+                        <img src="/images/man.jpg" class="profile-image img-fluid" alt="">
                     </a>
                     <ul class="dropdown-menu bg-white shadow">
                         <li>
@@ -276,10 +276,78 @@
                     <section class="hero-section d-flex justify-content-center align-items-center">
                         <div class="container">
                             <div class="row">
-                                <div class="col-lg-5 col-12 mx-auto">
-                                    <h1 class="h2 mb-0">Overview</h1>
+                                <div class="col-lg-12 col-12 mx-auto">
+                                    <!-- Search NhomHang -->
+                                    <form method="post" asp-page-handler="SearchNhomHang">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="selectedGroup" class="form-label">Chọn Nhóm Hàng</label>
+                                                    <select class="form-select" name="selectedGroup" id="selectedGroup" onchange="fillFormFields()">
+                                                        <option value="">Chọn Nhóm Hàng</option>
+                                                        @foreach (var nhomHang in Model.ListNhomHang)
+                                                        {
+                                                            var tenTinh = nhomHang.DiaChi != null ? nhomHang.DiaChi.TenTinh : "Unknown";
+                                                            <option value="@nhomHang.Id" data-price="@nhomHang.Price" data-address="@tenTinh" data-description="@nhomHang.Description">@nhomHang.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="price" class="form-label">Giá</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="price" name="price" readonly>
+                                                        <span class="input-group-text">VNĐ</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="address" class="form-label">Địa chỉ</label>
+                                                    <input type="text" class="form-control" id="address" name="address" readonly>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="description" class="form-label">Mô tả</label>
+                                                    <textarea class="form-control" id="description" name="description" readonly></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                                    </form>
 
-                                    <small class="text-muted">Đây là master-detail</small>
+                                    <script>
+                                        function fillFormFields() {
+                                            var selectedOption = document.getElementById("selectedGroup").selectedOptions[0];
+                                            document.getElementById("price").value = selectedOption.getAttribute("data-price");
+                                            document.getElementById("address").value = selectedOption.getAttribute("data-address");
+                                            document.getElementById("description").value = selectedOption.getAttribute("data-description");
+                                        }
+                                    </script>
+
+                                    <!-- Khoảng cách giữa hai biểu mẫu -->
+                                    <div style="margin-top: 40px;"></div>
+
+                                    <!-- Form for ChiTietHang -->
+                                    <div class="table-responsive">
+                                    <form method="post" asp-page-handler="CreateChiTietHang">
+                                        <div class="mb-3">
+                                            <table id="chitietTable" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tên sản phẩm</th>
+                                                        <th>Số lượng</th>
+                                                        <th>Mô tả</th>
+                                                        <th>Thao tác</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Dynamic rows will be added here -->
+                                                </tbody>
+                                            </table>
+                                            <button type="button" class="btn btn-success" onclick="addRow()">Thêm</button>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Tạo Chi Tiết Hàng</button>
+                                    </form> 
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -309,5 +377,26 @@
     <script src="~/lib/bootstrap/dist/js/countdown.js"></script>
     <script src="~/lib/bootstrap/dist/js/apexcharts.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/custom.js"></script>
+
+    <script>
+        function addRow() {
+            var table = document.getElementById("chitietTable").getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow();
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+
+            cell1.innerHTML = '<input class="form-control" name="productName" />';
+            cell2.innerHTML = '<input class="form-control" name="quantity" />';
+            cell3.innerHTML = '<textarea class="form-control" name="description"></textarea>';
+            cell4.innerHTML = '<button type="button" class="btn btn-danger" onclick="deleteRow(this)">Xóa</button>';
+        }
+
+        function deleteRow(row) {
+            var index = row.parentNode.parentNode.rowIndex;
+            document.getElementById("chitietTable").deleteRow(index);
+        }
+    </script>
 </body>
 </html>
